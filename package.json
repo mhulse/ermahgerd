@@ -1,0 +1,24 @@
+{
+  "name": "tile-downloader",
+  "version": "1.0.0",
+  "description": "Download Google Street View tile images.",
+  "author": "Michael Hulse",
+  "license": {
+    "//": "https://spdx.org/licenses/",
+    "type": "Apache-2.0",
+    "url": "http://www.apache.org/licenses/LICENSE-2.0"
+  },
+  "scripts": {
+    "test": "mocha ./test/test.js"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mhulse/tile-downloader.git"
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^6.0.0"
+  }
+}
