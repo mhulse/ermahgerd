@@ -17,7 +17,11 @@
     "url": "https://github.com/mhulse/tile-downloader.git"
   },
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "async-await-parallel": "^1.0.0",
+    "axios": "^0.18.0",
+    "fs-extra": "^7.0.1"
+  },
   "devDependencies": {
     "mocha": "^6.0.0"
   }
