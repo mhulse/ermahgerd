@@ -7,6 +7,7 @@ const defaults = {
   throttle: 2, // seconds
 }
 
+// Non-blocking sleep/throttle:
 const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }

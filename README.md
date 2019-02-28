@@ -1,3 +1,7 @@
-# tile-downloader
+# Ermahgerd!
 
-Google Street View tile image downloader.
+Node.js image(s) downloader.
+
+## About
+
+Currently a work in progress …

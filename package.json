@@ -1,7 +1,7 @@
 {
-  "name": "tile-downloader",
+  "name": "ermahgerd",
   "version": "1.0.0",
-  "description": "Download Google Street View tile images.",
+  "description": "Node.js image(s) downloader.",
   "author": "Michael Hulse",
   "license": {
     "//": "https://spdx.org/licenses/",
@@ -14,7 +14,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhulse/tile-downloader.git"
+    "url": "https://github.com/mhulse/ermahgerd.git"
   },
   "main": "index.js",
   "dependencies": {
