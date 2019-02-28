@@ -3,7 +3,9 @@ const fs = require('fs-extra');
 const path = require('path');
 const axios = require('axios');
 
-const data = require('./test/data.js');
+const defaults = {
+  throttle: 2, // seconds
+}
 
 const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -31,14 +33,20 @@ async function downloadImage(image) {
 
 }
 
-(async function downloadImages() {
+async function run(options = {}) {
+
+  // Create a new shallow copy using Object Spread Params (last one in wins):
+  const opts = {
+    ...defaults,
+    ...options,
+  };
 
   try {
     await parallel(data[0].input.map(image => {
       return async () => {
         await downloadImage(image);
         console.log(image); // This proves that our parallel works.
-        await sleep(2000); // Use this to throttle requests.
+        await sleep(opts.throttle * 1000); // Use this to throttle requests.
       }
     }), 2)
   } catch (err) {
@@ -47,4 +55,6 @@ async function downloadImage(image) {
     console.log('finally')
   }
 
-})();
+});
+
+module.exports = run;
