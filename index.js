@@ -28,8 +28,11 @@ async function downloadImage(image) {
 
   // Return a promise:
   return new Promise((resolve, reject) => {
-    writer.on('finish', resolve)
-    writer.on('error', reject)
+
+    writer.on('finish', resolve);
+
+    writer.on('error', reject);
+
   })
 
 }
