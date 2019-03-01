@@ -1,7 +1,7 @@
 {
-  "name": "ermahgers",
+  "name": "parallel-image-downloader",
   "version": "1.0.0",
-  "description": "Node.js image(s) downloader.",
+  "description": "Node.js parallel image(s) downloader.",
   "author": "Michael Hulse",
   "license": {
     "//": "https://spdx.org/licenses/",
@@ -14,7 +14,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhulse/ermahgers.git"
+    "url": "https://github.com/mhulse/parallel-image-downloader.git"
   },
   "main": "index.js",
   "dependencies": {
