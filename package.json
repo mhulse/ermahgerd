@@ -1,5 +1,5 @@
 {
-  "name": "ermahgerd",
+  "name": "ermahgers",
   "version": "1.0.0",
   "description": "Node.js image(s) downloader.",
   "author": "Michael Hulse",
@@ -14,7 +14,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhulse/ermahgerd.git"
+    "url": "https://github.com/mhulse/ermahgers.git"
   },
   "main": "index.js",
   "dependencies": {
