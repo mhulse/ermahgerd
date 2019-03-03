@@ -4,7 +4,8 @@ module.exports = [
   'https://i.pinimg.com/originals/d7/59/10/d759105cf6f5823d1b676ec5b787ceef.jpg',
   {
     url: 'https://user-images.githubusercontent.com/218624/53617906-184bc080-3b9e-11e9-8eaa-ef4a98d8da51.jpg',
-    name: 'foo'
+    name: 'foo',
+    dest: './deep/deeper/'
   },
   'https://media4.s-nbcnews.com/j/streams/2013/January/130118/1B5600812-technolog2B685AC6B-2A63-D48A-8636-64C97357FD6A.fit-2000w.jpg',
   'https://media.vanityfair.com/photos/561fe28c6015429a1deba730/master/h_606,c_limit/ermahgerd-meme-maggie-goldenberger-01.jpg',
