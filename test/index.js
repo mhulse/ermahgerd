@@ -3,6 +3,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const axios = require('axios');
 
+const util = require('./util');
+
 const defaults = {
   throttle: 2, // seconds
   concurrency: 5,
@@ -10,21 +12,16 @@ const defaults = {
 
 const PID = (function() {
 
-  // Non-blocking sleep/throttle:
-  const _sleep = async function(milliseconds) {
-
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-
-  };
-
   const _downloadImage = async function(image) {
+
+    let response;
 
     const writer = fs.createWriteStream(
       path.resolve(__dirname, 'images', `${image.split('=')[1]}.jpg`)
     );
 
     try {
-      const response = await axios({
+      response = await axios({
         url: image,
         method: 'GET',
         responseType: 'stream', // Axios image download …
@@ -42,6 +39,8 @@ const PID = (function() {
         .on('finish', resolve)
         .on('error', reject);
 
+    }).then(() => {
+      return response;
     })
 
   };
@@ -56,14 +55,10 @@ const PID = (function() {
       //   throw err;
       // }
 
-      if (typeof image == 'string') {
-
-        console.log('image', image); // This proves that our parallel works.
-
-      }
+      console.log('image', image); // This proves that our parallel works.
 
       // try {
-      //   await sleep(this.options.throttle * 1000); // Use this to throttle requests.
+      //   await util.sleep(this.options.throttle * 1000); // Use this to throttle requests.
       // } catch(err) {
       //   throw err;
       // }
@@ -71,32 +66,6 @@ const PID = (function() {
     }
 
   };
-
-  const _validateOptions = function() {
-
-    const o = this.options;
-
-    if ( ! Object.entries(o.images).length) {
-
-      throw new Error('options.images is required');
-
-    }
-
-  };
-
-  const _ensureDestination = async function(destination = '') {
-
-    if (destination.length) {
-
-      try {
-        await fs.ensureDir(destination);
-      } catch(err) {
-        throw err;
-      }
-
-    }
-
-  }
 
   const _downloadImages = async function() {
 
@@ -126,22 +95,46 @@ const PID = (function() {
         ... options,
       };
 
-      _validateOptions.call(this);
-
     }
 
-    async download() {
+    async download(images) {
 
-      try {
-        await _ensureDestination.call(this);
-      } catch(err) {
-        throw err;
+      if (util.isString(images)) {
+
+        console.log('do something with string');
+
+      } else if (util.isArray(images)) {
+
+        console.log('do something with array');
+
+      } else if (util.isObject(images)) {
+
+        console.log('do something with object');
+
       }
 
-      try {
-        await _downloadImages.call(this);
-      } catch(err) {
-        throw err;
+      if (true) {
+
+        // if (this.options.destination) {
+        //
+        //   try {
+        //     await _ensureDestination(destination);
+        //   } catch(err) {
+        //     throw err;
+        //   }
+        //
+        // }
+        //
+        // try {
+        //   await _downloadImages.call(this);
+        // } catch(err) {
+        //   throw err;
+        // }
+
+      } else {
+
+        throw new Error('options.images is required');
+
       }
 
     }
