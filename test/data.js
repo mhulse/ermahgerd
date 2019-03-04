@@ -5,13 +5,18 @@ module.exports = [
   {
     url: 'https://user-images.githubusercontent.com/218624/53617906-184bc080-3b9e-11e9-8eaa-ef4a98d8da51.jpg',
     name: 'foo',
-    dest: './images/deep/deeper/'
+    target: './images/deep/deeper/'
   },
   'https://media4.s-nbcnews.com/j/streams/2013/January/130118/1B5600812-technolog2B685AC6B-2A63-D48A-8636-64C97357FD6A.fit-2000w.jpg',
   'https://media.vanityfair.com/photos/561fe28c6015429a1deba730/master/h_606,c_limit/ermahgerd-meme-maggie-goldenberger-01.jpg',
-  'https://arig87.files.wordpress.com/2012/07/walkinaweirdway-ermahgerd-ermahgerd-i.jpeg',
-  'https://66.media.tumblr.com/tumblr_m7mvhm9AKN1qlsu2do1_500.jpg',
-  'https://i.imgur.com/NCeUhNc.png',
+  [
+    'https://arig87.files.wordpress.com/2012/07/walkinaweirdway-ermahgerd-ermahgerd-i.jpeg',
+    'https://66.media.tumblr.com/tumblr_m7mvhm9AKN1qlsu2do1_500.jpg',
+    {
+      url: 'https://i.imgur.com/NCeUhNc.png',
+      name: 'deep'
+    }
+  ],
   {
     url: 'https://lh3.ggpht.com/p/AF1QipOxTJSsA1_hp4LYBDltoLdAp93ct3Xfl2Bmr5E7=x13-y0-z4',
     name: 'x13-y0-z4',
