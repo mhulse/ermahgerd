@@ -26,6 +26,7 @@ const pid = require('../index')({
   try {
     await pid.update({
       target: './images/2/',
+      debug: true,
     }).download(data);
   } catch(err) {
     console.log(err);

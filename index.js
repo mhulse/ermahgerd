@@ -1,13 +1,14 @@
 const parallel = require('async-await-parallel');
 const util = require('./lib/util');
 
-const defaults = {
-  throttle: 2, // Seconds to throttle between concurrent downloads.
-  concurrency: 5, // Number of images to download at one time.
-  debug: false, // @TODO: https://github.com/mhulse/parallel-image-downloader/issues/2
-};
-
 const PID = (function() {
+
+  let console;
+
+  const defaults = {
+    throttle: 2, // Seconds to throttle between concurrent downloads.
+    concurrency: 5, // Number of images to download at one time.
+  };
 
   const _prepImage = async function(image) {
 
@@ -66,7 +67,7 @@ const PID = (function() {
 
     return result;
 
-  }
+  };
 
   const _parallelImageMapper = function(image) {
 
@@ -79,7 +80,7 @@ const PID = (function() {
       await util.downloadImage(parsed.url, parsed.target);
 
       // This output shows that our parallel works:
-      // console.log(`-------------------- (${o.throttle * 1000})`);
+      console.log(`… ${parsed.target}`);
 
       if (o.throttle) {
 
@@ -119,12 +120,15 @@ const PID = (function() {
     update(options) {
 
       // Create a new shallow copy using Object Spread Params (last one in wins):
-      this.options = {
+      const o = this.options = {
         ... defaults,
         ... this.options,
         ... options,
       };
 
+      console = require('./lib/console')(o.debug);
+
+      // Return this for chaining purposes:
       return this;
 
     }
@@ -148,13 +152,13 @@ const PID = (function() {
 
           } else {
 
-            throw new Error('target not found or created');
+            throw new Error('target directory not found or created');
 
           }
 
         } else {
 
-          throw new Error('target required');
+          throw new Error('target directory required');
 
         }
 
@@ -177,13 +181,13 @@ const PID = (function() {
 
         if ( ! removed) {
 
-          throw new Error('target not removed');
+          throw new Error('target directory not removed');
 
         }
 
       } else {
 
-        throw new Error('target required');
+        throw new Error('target directory required');
 
       }
 
