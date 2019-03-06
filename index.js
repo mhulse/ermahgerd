@@ -1,4 +1,4 @@
-const parallel = require('async-await-parallel');
+const { pRateLimit } = require('p-ratelimit');
 const util = require('./lib/util');
 
 const PID = (function() {
@@ -6,8 +6,14 @@ const PID = (function() {
   let console;
 
   const defaults = {
-    throttle: 2, // Seconds to throttle between concurrent downloads.
-    concurrency: 5, // Number of images to download at one time.
+    interval: undefined, // 1000 ms == 1 second
+    rate: undefined, // 30 API calls per interval
+    concurrency: undefined, // no more than 10 running at once
+    maxDelay: 0, // an API call delayed > 2 sec is rejected
+    debug: false, // Show `console.log()`?
+    headers: {}, // Custom HTTP headers to be sent with each image download request.
+    maxRedirects: 5, // The maximum number of redirects to follow (0 = no redirects followed)
+    timeout: 0, // The number of milliseconds before the request times out (0 = no timeout)
   };
 
   const _prepImage = async function(image) {
@@ -21,15 +27,9 @@ const PID = (function() {
 
     if (util.isObject(image)) {
 
-      if (image.url) {
+      image.url || util.throwErr(`image url missing from object: ${image}`);
 
-        url = image.url;
-
-      } else {
-
-        throw new Error(`image url missing from object: ${image}`);
-
-      }
+      url = image.url;
 
       if (image.name) {
 
@@ -47,7 +47,7 @@ const PID = (function() {
 
         } catch (err) {
 
-          throw new Error(`unable to resolve target: ${target}`);
+          util.throwErr(`unable to resolve target: ${target}`);
 
         }
 
@@ -69,41 +69,45 @@ const PID = (function() {
 
   };
 
-  const _parallelImageMapper = function(image) {
-
-    const o = this.options;
-
-    return async () => {
-
-      const parsed = await _prepImage.call(this, image);
-
-      await util.downloadImage(parsed.url, parsed.target);
-
-      // This output shows that our parallel works:
-      console.log(`… ${parsed.target}`);
-
-      if (o.throttle) {
-
-        // Use this to throttle requests:
-        await util.sleep(o.throttle * 1000);
-
-      }
-
-    }
-
-  };
-
   const _downloadImages = async function(images) {
 
     const o = this.options;
+    const data = [];
+    const limit = pRateLimit({
+      interval: (o.throttle && (o.throttle * 1000)),
+      rate: o.rate,
+      concurrency: o.concurrency,
+      maxDelay: o.maxDelay,
+    });
+    const promises = images.map(async (image, index) => {
 
-    await parallel(
-      images.map(
-        _parallelImageMapper,
-        this // Pass context.
-      ),
-      o.concurrency
-    );
+      return limit(async () => {
+
+        const parsed = await _prepImage.call(this, image);
+
+        console.log(index, image);
+
+        return util.downloadImage(
+          parsed.url,
+          parsed.target,
+          {
+            headers: o.headers,
+            maxRedirects: o.maxRedirects,
+            timeout: o.timeout,
+          }
+        );
+
+      });
+
+    });
+
+    await Promise.all(promises).then(result => {
+
+      data.push(result);
+
+    });
+
+    return data;
 
   };
 
@@ -126,7 +130,8 @@ const PID = (function() {
         ... options,
       };
 
-      console = require('./lib/console')(o.debug);
+      // Override console for this module:
+      console = require('conn')(o.debug);
 
       // Return this for chaining purposes:
       return this;
@@ -135,38 +140,20 @@ const PID = (function() {
 
     async download(... images) {
 
-      let o = this.options;
+      const o = this.options;
 
       // We really just want one array:
       images = util.flattenDeep(images);
 
-      if (images.length) {
+      images.length || util.throwErr('one or more images are required');
 
-        if (o.target) {
+      o.target || util.throwErr('target directory required');
 
-          const target = await util.makeDir(o.target);
+      const target = await util.makeDir(o.target);
 
-          if (target) {
+      target || util.throwErr('target directory not found or created');
 
-            await _downloadImages.call(this, images);
-
-          } else {
-
-            throw new Error('target directory not found or created');
-
-          }
-
-        } else {
-
-          throw new Error('target directory required');
-
-        }
-
-      } else {
-
-        throw new Error('one or more images are required');
-
-      }
+      return _downloadImages.call(this, images);
 
     }
 
@@ -175,25 +162,15 @@ const PID = (function() {
 
       let o = this.options;
 
-      if (o.target) {
+      o.target || util.throwErr('target directory required');
 
-        const removed = await util.removeDir(o.target);
+      const removed = await util.removeDir(o.target);
 
-        if ( ! removed) {
-
-          throw new Error('target directory not removed');
-
-        }
-
-      } else {
-
-        throw new Error('target directory required');
-
-      }
+      removed || util.throwErr('target directory not removed');
 
     }
 
-  };
+  }
 
   return ParallelImageDownloader;
 

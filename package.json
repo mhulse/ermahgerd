@@ -18,11 +18,13 @@
   },
   "main": "index.js",
   "dependencies": {
-    "async-await-parallel": "^1.0.0",
     "axios": "^0.18.0",
-    "fs-extra": "^7.0.1"
+    "conn": "github:mhulse/conn",
+    "fs-extra": "^7.0.1",
+    "p-ratelimit": "^0.9.5"
   },
   "devDependencies": {
+    "eslint": "^5.15.1",
     "mocha": "^6.0.0"
   }
 }
