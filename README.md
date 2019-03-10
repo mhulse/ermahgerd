@@ -17,8 +17,9 @@ $ npm i mhulse/parallel-image-downloader
 ## Usage
 
 ```js
-const pid = require('parrallel-image-donwloader')({
+const pid = require('../index')({
   target: './images/',
+  debug: 1,
   // Options passed here can be overridden using `update()` method.
 });
 
@@ -29,7 +30,15 @@ const pid = require('parrallel-image-donwloader')({
   } catch (err) {
     console.error(err);
   }
-});
+})();
+
+// [index.js:88:17] 0 https://i.pinimg.com/originals/d7/59/10/d759105cf6f5823d1b676ec5b787ceef.jpg
+// [ [ { status: 200,
+//   statusText: 'OK',
+//   headers: [Object],
+//   config: [Object],
+//   request: [ClientRequest],
+//   data: [IncomingMessage] } ] ]
 ```
 
 For more examples, check out [`example.js`](./test/example.js).
@@ -78,6 +87,26 @@ For example, this:
 ### Other options
 
 - `debug`: `false`, show `console.log()` statements?
+
+## Development
+
+Clone this repo, then:
+
+```bash
+$ npm install
+```
+
+Run test(s):
+
+```bash
+$ npm test
+```
+
+Experiment with test code:
+
+```bash
+$ node ./test/example.js
+```
 
 ## License
 
