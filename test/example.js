@@ -1,6 +1,7 @@
 const data = require('./data');
 const pid = require('../index')({
-  throttle: 5,
+  interval: 10,
+  rate: 2,
   concurrency: 2,
   target: './images/',
   debug: true,
@@ -8,62 +9,62 @@ const pid = require('../index')({
 
 (async () => {
 
-  // console.log('');
-  // console.log('1. Single image as string:');
-  // console.log('');
-  //
-  // try {
-  //
-  //   const result = await pid.download(data[0]);
-  //
-  //   console.log(result);
-  //
-  // } catch (err) {
-  //
-  //   console.error(err);
-  //
-  // }
+  console.log('');
+  console.log('1. Single image as string:');
+  console.log('');
+
+  try {
+
+    const result = await pid.download(data[0]);
+
+    console.log(result);
+
+  } catch (err) {
+
+    console.error(err);
+
+  }
 
   //----------------------------------------------------------------------------
 
-  // console.log('');
-  // console.log('2. Array of images, as strings or objects:');
-  // console.log('');
-  //
-  // try {
-  //
-  //   const result = await pid.update({
-  //     target: './images/2/',
-  //     debug: true,
-  //   }).download(data);
-  //
-  //   // console.log(result);
-  //
-  // } catch (err) {
-  //
-  //   console.error(err);
-  //
-  // }
+  console.log('');
+  console.log('2. Array of images, as strings or objects:');
+  console.log('');
+
+  try {
+
+    const result = await pid.update({
+      target: './images/2/',
+      debug: true,
+    }).download(data);
+
+    // console.log(result);
+
+  } catch (err) {
+
+    console.error(err);
+
+  }
 
   //----------------------------------------------------------------------------
 
-  // console.log('');
-  // console.log('3. Single image as object literal:');
-  // console.log('');
-  //
-  // try {
-  //
-  //   const result = await pid.update({
-  //     target: './images/3/'
-  //   }).download(data[1]);
-  //
-  //   // console.log(result);
-  //
-  // } catch (err) {
-  //
-  //   console.error(err);
-  //
-  // }
+  console.log('');
+  console.log('3. Single image as object literal:');
+  console.log('');
+
+  try {
+
+    const result = await pid.update({
+      target: './images/3/'
+    }).download(data[1]);
+
+    // console.log(result);
+
+  } catch (err) {
+
+    console.error(err);
+
+  }
 
   //----------------------------------------------------------------------------
 
@@ -91,7 +92,7 @@ const pid = require('../index')({
 
   }
 
-  // @TODO Make better exmaple of code that can execute while we wait for .then():
+  // @TODO Make better example of code that can execute while we wait for `.then()`:
   console.log('this is something else');
 
 })()

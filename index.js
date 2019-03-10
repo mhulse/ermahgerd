@@ -7,8 +7,8 @@ const PID = (function() {
 
   const defaults = {
     interval: undefined, // 1000 ms == 1 second
-    rate: undefined, // 30 API calls per interval
-    concurrency: undefined, // no more than 10 running at once
+    rate: undefined, // number of API calls per interval
+    concurrency: undefined, // number of downloads running at once
     maxDelay: 0, // an API call delayed > 2 sec is rejected
     debug: false, // Show `console.log()`?
     headers: {}, // Custom HTTP headers to be sent with each image download request.
@@ -74,10 +74,10 @@ const PID = (function() {
     const o = this.options;
     const data = [];
     const limit = pRateLimit({
-      interval: (o.throttle && (o.throttle * 1000)),
+      interval: (o.interval && (o.interval * 1000)),
       rate: o.rate,
       concurrency: o.concurrency,
-      maxDelay: o.maxDelay,
+      maxDelay: ((o.maxDelay > 0) ? (o.maxDelay * 1000) : o.maxDelay),
     });
     const promises = images.map(async (image, index) => {
 
