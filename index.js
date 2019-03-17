@@ -145,9 +145,9 @@ const PID = (function() {
       // We really just want one array:
       images = util.flattenDeep(images);
 
-      images.length || util.throwErr('one or more images are required');
+      images.length || util.throwErr('one or more images are required', 'TypeError');
 
-      o.target || util.throwErr('target directory required');
+      o.target || util.throwErr('target directory required', 'TypeError');
 
       const target = await util.makeDir(o.target);
 
@@ -162,7 +162,7 @@ const PID = (function() {
 
       let o = this.options;
 
-      o.target || util.throwErr('target directory required');
+      o.target || util.throwErr('target directory required', 'TypeError');
 
       const removed = await util.removeDir(o.target);
 

@@ -1,6 +1,7 @@
 // https://github.com/mhulse/rand-street-view
 // https://github.com/mhulse/tile-parser
 module.exports = [
+  'https://i.pinimg.com/originals/d7/59/10/bad-image-that-does-not-exist.jpg',
   'https://i.pinimg.com/originals/d7/59/10/d759105cf6f5823d1b676ec5b787ceef.jpg',
   {
     url: 'https://user-images.githubusercontent.com/218624/53617906-184bc080-3b9e-11e9-8eaa-ef4a98d8da51.jpg',

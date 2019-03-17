@@ -38,7 +38,7 @@ const pid = require('../index')({
       debug: true,
     }).download(data);
 
-    // console.log(result);
+    console.log(result);
 
   } catch (err) {
 
@@ -58,7 +58,7 @@ const pid = require('../index')({
       target: './images/3/'
     }).download(data[1]);
 
-    // console.log(result);
+    console.log(result);
 
   } catch (err) {
 
@@ -81,7 +81,6 @@ const pid = require('../index')({
       .download(data[0], data[1], data[2], data[3], data[4])
       .then(result => {
 
-        console.log('-----------------------------------------------------');
         console.log(result);
 
       });

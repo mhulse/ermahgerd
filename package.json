@@ -17,10 +17,10 @@
     "axios": "^0.18.0",
     "conn": "github:mhulse/conn",
     "fs-extra": "^7.0.1",
-    "p-ratelimit": "^0.9.5"
+    "p-ratelimit": "^0.10.0"
   },
   "devDependencies": {
-    "eslint": "^5.15.1",
+    "eslint": "^5.15.2",
     "mocha": "^6.0.0"
   }
 }
