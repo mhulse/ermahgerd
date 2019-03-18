@@ -16,6 +16,8 @@ $ npm i mhulse/parallel-image-downloader
 
 ## Usage
 
+This example shows how to download two images with no rate or concurrency limiting (module defaults):
+
 ```js
 const pid = require('parallel-image-downloader')({
   target: './images/',
@@ -104,7 +106,7 @@ For example, this:
 
 ```js
 {
-  interval: 10000,
+  interval: 10,
   rate: 2,
   concurrency: 2,
 }
