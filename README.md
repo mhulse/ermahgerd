@@ -17,7 +17,7 @@ $ npm i mhulse/parallel-image-downloader
 ## Usage
 
 ```js
-const pid = require('../index')({
+const pid = require('parallel-image-downloader')({
   target: './images/',
   debug: 1,
   // Options passed here can be overridden using `update()` method.
