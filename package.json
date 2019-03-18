@@ -17,7 +17,8 @@
     "axios": "^0.18.0",
     "conn": "github:mhulse/conn",
     "fs-extra": "^7.0.1",
-    "p-ratelimit": "^0.10.0"
+    "p-ratelimit": "^0.10.0",
+    "untildify": "^3.0.3"
   },
   "devDependencies": {
     "eslint": "^5.15.2",
