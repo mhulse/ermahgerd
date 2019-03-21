@@ -1,4 +1,5 @@
-pid = require('../index')({
+const PID = require('../index');
+const pid = new PID({
   debug: true,
   target: './images/',
 });

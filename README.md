@@ -19,7 +19,8 @@ $ npm i mhulse/parallel-image-downloader
 This example shows how to download two images with no rate or concurrency limiting (module defaults):
 
 ```js
-const pid = require('parallel-image-downloader')({
+const PID = require('parallel-image-downloader');
+const pid = new PID({
   target: './images/',
   debug: 1,
   // Options passed here can be overridden using `update()` method.
@@ -120,7 +121,7 @@ Currently support options:
 
 option | default | description
 --- | --- | ---
-`headers` | `{}` | custom HTTP headers to be sent with each image download request.
+`headers` | `{}` | custom HTTP headers to be sent with each image download request
 `maxRedirects` | `5` | the maximum number of redirects to follow (`0` = no redirects followed)
 `timeout` | `0` | the number of milliseconds before the request times out (`0` = no timeout)
 
@@ -128,6 +129,7 @@ option | default | description
 
 option | default | description
 --- | --- | ---
+`rename` | `noop` | modify name (or file path) of image before saving to disk
 `debug` | `false` | show `console.log()` statements?
 
 ## Development

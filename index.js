@@ -1,9 +1,7 @@
 const { pRateLimit } = require('p-ratelimit');
 const util = require('./lib/util');
 
-const PID = (function() {
-
-  let console;
+module.exports = (function() {
 
   const defaults = {
     interval: undefined, // 1000 ms == 1 second
@@ -14,6 +12,7 @@ const PID = (function() {
     headers: {}, // Custom HTTP headers to be sent with each image download request.
     maxRedirects: 5, // The maximum number of redirects to follow (0 = no redirects followed)
     timeout: 0, // The number of milliseconds before the request times out (0 = no timeout)
+    rename: util.noop, // Callback method used to modify the name of downloaded image
   };
 
   const _prepImage = async function(image) {
@@ -85,17 +84,18 @@ const PID = (function() {
 
         const parsed = await _prepImage.call(this, image);
 
-        console.log(index, image);
+        o.debug && console.log(index, image);
 
-        return util.downloadImage(
-          parsed.url,
-          parsed.target,
-          {
+        return util.downloadImage({
+          url: parsed.url,
+          target: parsed.target,
+          http: {
             headers: o.headers,
             maxRedirects: o.maxRedirects,
             timeout: o.timeout,
-          }
-        );
+          },
+          rename: o.rename,
+        });
 
       });
 
@@ -129,9 +129,6 @@ const PID = (function() {
         ... this.options,
         ... options,
       };
-
-      // Override console for this module:
-      console = require('conn')(o.debug);
 
       // Return this for chaining purposes:
       return this;
@@ -175,13 +172,3 @@ const PID = (function() {
   return ParallelImageDownloader;
 
 }());
-
-// This allows for:
-// const x = require()({…}); x.foo();
-// … OR:
-// const x = require(); x({…}).foo();
-module.exports = ((options = {}) => {
-
-  return new PID(options);
-
-});
