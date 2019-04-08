@@ -160,6 +160,7 @@ const util = require('../lib/util');
 
   try {
 
+    // Also an example of NOT waiting for the async to finsih:
     pid
       .update({
         target: './images/5/'
@@ -177,7 +178,7 @@ const util = require('../lib/util');
 
   }
 
-  // @TODO Make better example of code that can execute while we wait for `.then()`:
+  // This will get logged before the above promise finishes:
   console.log('this is something else');
 
 })()
