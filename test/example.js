@@ -118,7 +118,6 @@ const util = require('../lib/util');
       rename: async file => {
 
         const name = util.urlFileName(file);
-        console.log('name:', name, 'file:', file)
         const parsed = util.getUrlParts(file, true);
         let x;
         let y;
