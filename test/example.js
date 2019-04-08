@@ -11,6 +11,7 @@ const util = require('../lib/util');
     target: './images/',
     debug: true,
   };
+
   const pid = new PID(options);
 
   console.log('');
@@ -82,9 +83,9 @@ const util = require('../lib/util');
   try {
 
     const result = await pid2.update({
-      rename: async (file) => {
+      rename: async file => {
 
-        const name = util.fileName(file);
+        const name = util.urlFileName(file);
         const parts = name.split('-');
         const x = parts[0].replace(/\D/g, '').padStart(2, '0');
         const y = parts[1].replace(/\D/g, '').padStart(2, '0');
@@ -105,7 +106,57 @@ const util = require('../lib/util');
   //----------------------------------------------------------------------------
 
   console.log('');
-  console.log('5. Multiple images as string, array and object literal (method args):');
+  console.log('5. Multiple images as object, with different file renames:');
+  console.log('');
+
+  // Testing new instance:
+  const pid3 = new PID(options);
+
+  try {
+
+    const result = await pid3.update({
+      rename: async file => {
+
+        const name = util.urlFileName(file);
+        console.log('name:', name, 'file:', file)
+        const parsed = util.getUrlParts(file, true);
+        let x;
+        let y;
+
+        if (parsed.search) {
+
+          x = parsed.query.x;
+          y = parsed.query.y;
+
+        } else {
+
+          const parts = file.split('=')[1].split('-');
+
+          x = parts[0].replace(/\D/g, '');
+          y = parts[1].replace(/\D/g, '');
+
+        }
+
+        x = x.padStart(2, '0');
+        y = y.padStart(2, '0');
+
+        return file.replace(name, `tile_y${y}-x${x}`);
+
+      },
+    }).download(data[8]);
+
+    console.log(result);
+
+  } catch (err) {
+
+    console.error(err);
+
+  }
+
+  //----------------------------------------------------------------------------
+
+  console.log('');
+  console.log('6. Multiple images as string, array and object literal (method args):');
   console.log('');
 
   try {

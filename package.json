@@ -5,7 +5,8 @@
   "author": "Michael Hulse",
   "license": "Apache-2.0",
   "scripts": {
-    "test": "mocha ./test/test.js"
+    "test": "mocha ./test/test.js",
+    "example": "node ./test/example.js"
   },
   "keywords": [],
   "repository": {
@@ -15,13 +16,12 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0",
-    "conn": "github:mhulse/conn",
     "fs-extra": "^7.0.1",
     "p-ratelimit": "^0.10.0",
     "untildify": "^3.0.3"
   },
   "devDependencies": {
-    "eslint": "^5.15.2",
-    "mocha": "^6.0.0"
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.1"
   }
 }

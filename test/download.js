@@ -13,15 +13,23 @@ const downloadImage = async function(image) {
   );
 
   try {
+
     response = await axios({
       url: image,
       method: 'GET',
       responseType: 'stream', // Axios image download …
     });
+
     response.data.pipe(writer); // Pipe the result stream directly to a file.
-    console.log(response.status, response.headers['content-type']);
+
+    //console.log(response.status, response.headers['content-type']);
+
   } catch(err) {
+
+    console.error('There was a problem with the axios request')
+
     throw err;
+
   }
 
   // Return a promise:

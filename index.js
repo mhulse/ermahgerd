@@ -1,18 +1,18 @@
 const { pRateLimit } = require('p-ratelimit');
-const util = require('./lib/util');
+const { downloadImage, util } = require('./lib/index');
 
 module.exports = (function() {
 
   const defaults = {
-    interval: undefined, // 1000 ms == 1 second
-    rate: undefined, // number of API calls per interval
-    concurrency: undefined, // number of downloads running at once
-    maxDelay: 0, // an API call delayed > 2 sec is rejected
-    debug: false, // Show `console.log()`?
-    headers: {}, // Custom HTTP headers to be sent with each image download request.
-    maxRedirects: 5, // The maximum number of redirects to follow (0 = no redirects followed)
-    timeout: 0, // The number of milliseconds before the request times out (0 = no timeout)
-    rename: util.noop, // Callback method used to modify the name of downloaded image
+    interval: undefined,
+    rate: undefined,
+    concurrency: undefined,
+    maxDelay: 0,
+    debug: false,
+    headers: {},
+    maxRedirects: 5,
+    timeout: 0,
+    rename: util.noop,
   };
 
   const _prepImage = async function(image) {
@@ -26,28 +26,24 @@ module.exports = (function() {
 
     if (util.isObject(image)) {
 
-      image.url || util.throwErr(`image url missing from object: ${image}`);
+      if ( ! image.url)
+        throw new Error(`Image url missing from object, got: \`${image}\``);
+
+      if ( ! image.name)
+        throw new Error(`Image name missing form object, got: \`${image}\``)
 
       url = image.url;
+      name = image.name;
 
-      if (image.name) {
-
-        name = image.name;
-
-      }
-
+      // Override option’s target directory?
       if (image.target) {
 
         target = image.target;
 
         try {
-
           await util.makeDir(target);
-
         } catch (err) {
-
-          util.throwErr(`unable to resolve target: ${target}`);
-
+          throw new Error(`Unable to resolve target, got: \`${target}\``);
         }
 
       }
@@ -55,13 +51,11 @@ module.exports = (function() {
     } else {
 
       url = image;
-
-      name = util.fileName(url);
+      name = util.urlFileName(url);
 
     }
 
     result.url = url;
-
     result.target = util.joinPaths((target || o.target), name);
 
     return result;
@@ -86,7 +80,7 @@ module.exports = (function() {
 
         o.debug && console.log(index, image);
 
-        return util.downloadImage({
+        return downloadImage({
           url: parsed.url,
           target: parsed.target,
           http: {
@@ -124,7 +118,7 @@ module.exports = (function() {
     update(options) {
 
       // Create a new shallow copy using Object Spread Params (last one in wins):
-      const o = this.options = {
+      this.options = {
         ... defaults,
         ... this.options,
         ... options,
@@ -142,13 +136,16 @@ module.exports = (function() {
       // We really just want one array:
       images = util.flattenDeep(images);
 
-      images.length || util.throwErr('one or more images are required', 'TypeError');
+      if ( ! images.length)
+        throw new TypeError(`One or more images are required, got: \`${images}\``);
 
-      o.target || util.throwErr('target directory required', 'TypeError');
+      if ( ! o.target)
+        throw new TypeError(`Target directory required, got: \`${o.target}\``);
 
       const target = await util.makeDir(o.target);
 
-      target || util.throwErr('target directory not found or created');
+      if ( ! target)
+        throw new Error(`Target directory not found or created, got: \`${target}\``);
 
       return _downloadImages.call(this, images);
 
@@ -157,13 +154,15 @@ module.exports = (function() {
     // Clean up (remove) downloaded images …
     async clean() {
 
-      let o = this.options;
+      const o = this.options;
 
-      o.target || util.throwErr('target directory required', 'TypeError');
+      if ( ! o.target)
+        throw new TypeError(`Target directory required, got: \`${o.target}\``);
 
       const removed = await util.removeDir(o.target);
 
-      removed || util.throwErr('target directory not removed');
+      if ( ! removed)
+        console.error('Target directory not removed!');
 
     }
 
@@ -171,4 +170,4 @@ module.exports = (function() {
 
   return ParallelImageDownloader;
 
-}());
+})();

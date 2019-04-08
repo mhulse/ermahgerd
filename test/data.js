@@ -26,4 +26,8 @@ module.exports = [
     url: 'https://geo3.ggpht.com/cbk?panoid=jtP01lmH5P7CDsZ_Ag5DAA&output=tile&x=18&y=1&zoom=5&nbt&fover=2&authuser=0&cb_client=maps_sv.tactile',
     name: 'x18-y1-z5',
   },
+  [
+    'https://lh3.ggpht.com/p/AF1QipOxTJSsA1_hp4LYBDltoLdAp93ct3Xfl2Bmr5E7=x13-y0-z4',
+    'https://geo3.ggpht.com/cbk?panoid=jtP01lmH5P7CDsZ_Ag5DAA&output=tile&x=18&y=1&zoom=5&nbt&fover=2&authuser=0&cb_client=maps_sv.tactile',
+  ],
 ];

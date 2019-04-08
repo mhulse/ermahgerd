@@ -22,7 +22,7 @@ This example shows how to download two images with no rate or concurrency limiti
 const PID = require('parallel-image-downloader');
 const pid = new PID({
   target: './images/',
-  debug: 1,
+  debug: true,
   // Options passed here can be overridden using `update()` method.
 });
 
@@ -86,7 +86,7 @@ For more examples, check out [`example.js`](./test/example.js).
 
 This module utilizes the features of these modules:
 
-### [`p-ratelimit`](https://github.com/natesilva/p-ratelimit) 
+### [`p-ratelimit`](https://github.com/natesilva/p-ratelimit)
 
 Currently supported options:
 
